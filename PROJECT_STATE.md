@@ -90,11 +90,19 @@ auth/streaks/progress, deployed on Vercel + Render.
    - Deployment configs: `Procfile`, `render.yaml`, `requirements.txt`.
    - Dedicated Python 3.12 virtual environment tested and verified.
 
+5. **Documentation Video Series — Episode 1**:
+   - Episode 1 title: *"I'm Building an AI App for Students — Here's the Plan"*
+   - Locked script (~96 seconds, casual energetic collegiate tone).
+   - Generated faceless AI avatar character portrait for narrator "Tirth" (`series/episode-01/avatar_tirth.png`).
+   - Synthesized natural voiceover audio (`series/episode-01/episode_1_voiceover.mp3`) with timed subtitles (`episode_1_captions.vtt`).
+   - Rendered 1080x1920 vertical video reel (`series/episode-01/episode_1_reel.mp4`).
+   - Detailed production breakdown & storyboard created in `series/episode-01/EPISODE_1_PLAN.md`.
+
 ## Status
-Initial project scaffolding complete. Frontend and backend builds verified locally. Code pushed to GitHub (`main` branch).
+Initial project scaffolding complete. Frontend and backend builds verified locally. Episode 1 media assets and video reel generated. Code and assets pushed to GitHub (`main` branch).
 
 ## Next steps
 1. Deploy frontend to Vercel and backend to Render.
-2. Script and generate Episode 1 of the 10-part documentation series ("Ep 1: The Zero-to-One Architecture of RevisionReel").
+2. Script and produce Episode 2 ("Why Revision the Old Way is Broken & How Micro-Cards Fix It").
 3. Run Supabase SQL migration (`supabase/schema.sql`) for `profiles`, `completed_cards`, and `saved_cards` tables.
-4. Expand card deck to 30 concepts across Class 11-12 Board & JEE Foundation syllabus.
+4. Expand card deck from 18 to 30 concepts across Class 11-12 Board & JEE Foundation syllabus.

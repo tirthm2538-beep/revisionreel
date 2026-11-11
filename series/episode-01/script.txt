@@ -1,0 +1,11 @@
+﻿Hey! I'm Tirth, and I'm a college student who's genuinely tired of watching people struggle with the same boring, overloaded revision notes before board exams and competitive exams like JEE.
+
+So I'm building something different — it's called RevisionReel. Think of it like scrolling through Instagram, except every card teaches you one Physics, Chemistry, or Math concept in under a minute, with a quick quiz to lock it in.
+
+And here's the twist — I'm building this entire thing using AI. Not just a little bit of help. I'm talking full planning, full coding, full design — all done through AI tools, and I'm filming the whole process so you can actually see how it's built, bug by bug, decision by decision.
+
+This isn't a polished "look what I made" video. This is the real, messy, behind-the-scenes process — because I think more students need to see that building something real with AI is actually possible, even if you're still learning to code yourself.
+
+Over the next few episodes, I'll show you the planning, the actual building, the bugs that break things, and eventually — a live app you can actually use to revise for your exams.
+
+If that sounds useful to you, follow along. Episode 2 is coming — where I break down exactly why revision the old way is broken, and what I'm doing differently.
