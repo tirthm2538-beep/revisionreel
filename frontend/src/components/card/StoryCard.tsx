@@ -33,40 +33,46 @@ export function StoryCard({
 }: StoryCardProps) {
   const [isShareOpen, setIsShareOpen] = useState(false);
 
-  const getSubjectBadgeVariant = () => {
-    switch (card.subject) {
-      case 'physics':
-        return 'blue';
-      case 'chemistry':
-        return 'emerald';
-      case 'mathematics':
-      default:
-        return 'purple';
-    }
-  };
-
-  const getGlowStyles = () => {
+  const getSubjectTheme = () => {
     switch (card.subject) {
       case 'physics':
         return {
-          top: 'bg-sky-500/10',
-          bottom: 'bg-blue-600/10',
+          badgeVariant: 'blue' as const,
+          glows: {
+            top: 'bg-sky-500/15',
+            bottom: 'bg-blue-600/15',
+          },
+          numberStyle:
+            'bg-sky-100 text-sky-800 dark:bg-sky-950/80 dark:text-sky-300 border border-sky-300/60 dark:border-sky-800/80',
+          nextButton: 'text-sky-600 hover:text-sky-500 dark:text-sky-400',
         };
       case 'chemistry':
         return {
-          top: 'bg-emerald-500/10',
-          bottom: 'bg-teal-600/10',
+          badgeVariant: 'emerald' as const,
+          glows: {
+            top: 'bg-emerald-500/15',
+            bottom: 'bg-teal-600/15',
+          },
+          numberStyle:
+            'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300 border border-emerald-300/60 dark:border-emerald-800/80',
+          nextButton: 'text-emerald-600 hover:text-emerald-500 dark:text-emerald-400',
         };
       case 'mathematics':
       default:
         return {
-          top: 'bg-indigo-500/10',
-          bottom: 'bg-purple-600/10',
+          badgeVariant: 'purple' as const,
+          glows: {
+            top: 'bg-indigo-500/15',
+            bottom: 'bg-purple-600/15',
+          },
+          numberStyle:
+            'bg-indigo-100 text-indigo-800 dark:bg-indigo-950/80 dark:text-indigo-300 border border-indigo-300/60 dark:border-indigo-800/80',
+          nextButton: 'text-indigo-600 hover:text-indigo-500 dark:text-indigo-400',
         };
     }
   };
 
-  const glows = getGlowStyles();
+  const theme = getSubjectTheme();
 
   return (
     <div
@@ -81,12 +87,12 @@ export function StoryCard({
         <div
           className={`absolute top-1/4 -right-12 rounded-full transition-all duration-500 ${
             isDesktopLayout ? 'w-96 h-96 blur-[120px]' : 'w-48 h-48 blur-[80px]'
-          } ${glows.top}`}
+          } ${theme.glows.top}`}
         />
         <div
           className={`absolute bottom-6 -left-12 rounded-full ${
             isDesktopLayout ? 'w-96 h-96 blur-[120px]' : 'w-48 h-48 blur-[80px]'
-          } ${glows.bottom}`}
+          } ${theme.glows.bottom}`}
         />
       </div>
 
@@ -99,9 +105,9 @@ export function StoryCard({
         {/* Meta badges & Header */}
         <div className="flex items-center justify-between gap-1.5 w-full min-w-0 pb-0.5">
           <div className="flex items-center gap-1.5 min-w-0">
-            <Badge variant={getSubjectBadgeVariant()}>{card.tag}</Badge>
+            <Badge variant={theme.badgeVariant}>{card.tag}</Badge>
             <span
-              className={`font-bold bg-slate-200 text-slate-800 dark:bg-slate-800 dark:text-slate-300 px-2 py-0.5 rounded ${
+              className={`font-bold px-2 py-0.5 rounded ${theme.numberStyle} ${
                 isDesktopLayout ? 'text-xs' : 'text-[10px]'
               }`}
             >
@@ -177,6 +183,7 @@ export function StoryCard({
           <div className="w-full min-w-0 flex flex-col h-full">
             <ExplanationSection
               explanation={card.explanation}
+              subject={card.subject}
               className={isDesktopLayout ? 'h-full max-h-[140px] overflow-y-auto scrollbar-thin' : ''}
             />
           </div>
@@ -186,6 +193,7 @@ export function StoryCard({
             <AnalogySection
               analogy={card.analogy}
               iconName={card.analogyIcon}
+              subject={card.subject}
               className={isDesktopLayout ? 'h-full max-h-[250px] overflow-y-auto scrollbar-thin' : ''}
             />
           </div>
@@ -245,7 +253,7 @@ export function StoryCard({
               !isLastCard && (
                 <button
                   onClick={onNextCard}
-                  className="flex items-center gap-1 text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 transition-colors cursor-pointer"
+                  className={`flex items-center gap-1 text-xs font-bold ${theme.nextButton} transition-colors cursor-pointer`}
                 >
                   <span>Next Concept &rarr;</span>
                 </button>

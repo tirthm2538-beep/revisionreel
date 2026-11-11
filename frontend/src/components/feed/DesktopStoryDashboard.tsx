@@ -286,6 +286,28 @@ export function DesktopStoryDashboard({
                 const isSelected = card.id === selectedCardId;
                 const isDone = progress?.completedCardIds.includes(card.id);
                 const isSaved = progress?.bookmarkedCardIds.includes(card.id);
+                const isPhys = card.subject === 'physics';
+                const isChem = card.subject === 'chemistry';
+
+                const activeCardStyle = isPhys
+                  ? 'bg-sky-50/90 border-sky-400/90 shadow-xs dark:bg-sky-950/40 dark:border-sky-500/70'
+                  : isChem
+                  ? 'bg-emerald-50/90 border-emerald-400/90 shadow-xs dark:bg-emerald-950/40 dark:border-emerald-500/70'
+                  : 'bg-indigo-50/90 border-indigo-400/90 shadow-xs dark:bg-indigo-950/40 dark:border-indigo-500/70';
+
+                const numberBadgeStyle = isSelected
+                  ? isPhys
+                    ? 'bg-sky-600 text-white'
+                    : isChem
+                    ? 'bg-emerald-600 text-white'
+                    : 'bg-indigo-600 text-white'
+                  : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400';
+
+                const tagBadgeStyle = isPhys
+                  ? 'text-sky-700 bg-sky-500/10 border-sky-500/20 dark:text-sky-300'
+                  : isChem
+                  ? 'text-emerald-700 bg-emerald-500/10 border-emerald-500/20 dark:text-emerald-300'
+                  : 'text-indigo-700 bg-indigo-500/10 border-indigo-500/20 dark:text-indigo-300';
 
                 return (
                   <button
@@ -293,23 +315,19 @@ export function DesktopStoryDashboard({
                     onClick={() => setSelectedCardId(card.id)}
                     className={`w-full text-left p-2.5 rounded-xl border transition-all duration-150 flex items-start gap-2.5 cursor-pointer ${
                       isSelected
-                        ? 'bg-indigo-50/80 border-indigo-400/80 shadow-xs dark:bg-indigo-950/40 dark:border-indigo-500/60'
+                        ? activeCardStyle
                         : 'bg-white dark:bg-slate-900/40 border-slate-200/80 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/60'
                     }`}
                   >
                     <div
-                      className={`w-6 h-6 rounded-lg flex items-center justify-center text-xs font-black flex-shrink-0 mt-0.5 ${
-                        isSelected
-                          ? 'bg-indigo-600 text-white'
-                          : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400'
-                      }`}
+                      className={`w-6 h-6 rounded-lg flex items-center justify-center text-xs font-black flex-shrink-0 mt-0.5 ${numberBadgeStyle}`}
                     >
                       {card.conceptNumber}
                     </div>
 
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between gap-1 mb-0.5">
-                        <span className="text-[10px] uppercase font-bold text-slate-500 dark:text-slate-400">
+                        <span className={`text-[9px] uppercase font-bold px-1.5 py-0.5 rounded border ${tagBadgeStyle}`}>
                           {card.tag}
                         </span>
                         <div className="flex items-center gap-1">
@@ -375,7 +393,15 @@ export function DesktopStoryDashboard({
 
             {/* Active Card Body */}
             {activeCard && (
-              <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-md p-4 lg:p-6">
+              <div
+                className={`bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-md p-4 lg:p-6 border-t-4 transition-all duration-300 ${
+                  activeCard.subject === 'physics'
+                    ? 'border-t-sky-500 shadow-sky-500/5'
+                    : activeCard.subject === 'chemistry'
+                    ? 'border-t-emerald-500 shadow-emerald-500/5'
+                    : 'border-t-indigo-500 shadow-indigo-500/5'
+                }`}
+              >
                 <StoryCard
                   card={activeCard}
                   isLastCard={activeCardIndex === filteredCards.length - 1}

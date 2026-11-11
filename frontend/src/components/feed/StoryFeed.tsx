@@ -210,6 +210,7 @@ export function StoryFeed({
       <StoryProgressBar
         total={cards.length}
         current={currentIndex}
+        subject={cards[currentIndex]?.subject}
         onSelect={(idx) => scrollToCard(idx)}
       />
 
@@ -231,17 +232,27 @@ export function StoryFeed({
               key={card.id}
               className="w-full h-full snap-start snap-always flex items-center justify-center p-2 sm:p-4"
             >
-              <StoryCard
-                card={card}
-                isLastCard={index === cards.length - 1}
-                isCompleted={isCompleted}
-                isSaved={isSaved}
-                currentStreak={progress?.currentStreak ?? 1}
-                onNextCard={handleNext}
-                onQuizComplete={() => handleQuizComplete(card.id)}
-                onToggleBookmark={() => handleToggleBookmark(card.id)}
-                isDesktopLayout={false}
-              />
+              <div
+                className={`w-full max-w-md h-full flex flex-col justify-between bg-white dark:bg-slate-900/90 rounded-2xl border border-slate-200/90 dark:border-slate-800/90 border-t-4 shadow-sm overflow-hidden ${
+                  card.subject === 'physics'
+                    ? 'border-t-sky-500 shadow-sky-500/5'
+                    : card.subject === 'chemistry'
+                    ? 'border-t-emerald-500 shadow-emerald-500/5'
+                    : 'border-t-indigo-500 shadow-indigo-500/5'
+                }`}
+              >
+                <StoryCard
+                  card={card}
+                  isLastCard={index === cards.length - 1}
+                  isCompleted={isCompleted}
+                  isSaved={isSaved}
+                  currentStreak={progress?.currentStreak ?? 1}
+                  onNextCard={handleNext}
+                  onQuizComplete={() => handleQuizComplete(card.id)}
+                  onToggleBookmark={() => handleToggleBookmark(card.id)}
+                  isDesktopLayout={false}
+                />
+              </div>
             </div>
           );
         })}

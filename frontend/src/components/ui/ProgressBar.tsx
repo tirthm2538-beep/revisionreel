@@ -1,13 +1,38 @@
 import React from 'react';
+import { SubjectType } from '../../types/card';
 
 interface ProgressBarProps {
   total: number;
   current: number; // 0-indexed
+  subject?: SubjectType;
   onSelect?: (index: number) => void;
 }
 
-export function StoryProgressBar({ total, current, onSelect }: ProgressBarProps) {
+export function StoryProgressBar({ total, current, subject = 'physics', onSelect }: ProgressBarProps) {
   const progressPercent = Math.min(100, Math.round(((current + 1) / total) * 100));
+
+  const getSubjectColor = () => {
+    switch (subject) {
+      case 'physics':
+        return {
+          bar: 'bg-sky-500 dark:bg-sky-400',
+          shadow: 'shadow-[0_0_8px_rgba(14,165,233,0.8)]',
+        };
+      case 'chemistry':
+        return {
+          bar: 'bg-emerald-500 dark:bg-emerald-400',
+          shadow: 'shadow-[0_0_8px_rgba(16,185,129,0.8)]',
+        };
+      case 'mathematics':
+      default:
+        return {
+          bar: 'bg-indigo-500 dark:bg-indigo-400',
+          shadow: 'shadow-[0_0_8px_rgba(99,102,241,0.8)]',
+        };
+    }
+  };
+
+  const colors = getSubjectColor();
 
   return (
     <div className="w-full max-w-full px-3 pt-2 pb-1.5 z-20 flex flex-col gap-1 overflow-hidden">
@@ -27,9 +52,9 @@ export function StoryProgressBar({ total, current, onSelect }: ProgressBarProps)
                 <div
                   className={`h-full transition-all duration-300 rounded-full ${
                     isPassed
-                      ? 'bg-indigo-600 dark:bg-indigo-400 w-full'
+                      ? `${colors.bar} w-full opacity-80`
                       : isCurrent
-                      ? 'bg-indigo-600 dark:bg-indigo-400 w-full shadow-[0_0_8px_rgba(99,102,241,0.8)]'
+                      ? `${colors.bar} w-full ${colors.shadow}`
                       : 'bg-transparent w-0'
                   }`}
                 />
@@ -39,7 +64,7 @@ export function StoryProgressBar({ total, current, onSelect }: ProgressBarProps)
         ) : (
           <div className="w-full h-1 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden relative">
             <div
-              className="h-full bg-gradient-to-r from-sky-500 via-emerald-500 to-indigo-500 rounded-full transition-all duration-300 shadow-[0_0_8px_rgba(99,102,241,0.6)]"
+              className={`h-full ${colors.bar} rounded-full transition-all duration-300 ${colors.shadow}`}
               style={{ width: `${progressPercent}%` }}
             />
           </div>
