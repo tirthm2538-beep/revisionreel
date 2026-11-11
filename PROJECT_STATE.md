@@ -91,10 +91,10 @@ auth/streaks/progress, deployed on Vercel + Render.
    - Dedicated Python 3.12 virtual environment tested and verified.
 
 ## Status
-Initial project scaffolding complete. Frontend and backend builds verified locally. Code committed and ready for initial push.
+Initial project scaffolding complete. Frontend and backend builds verified locally. Code pushed to GitHub (`main` branch).
 
 ## Next steps
-1. Push initial commit to GitHub repository (`origin main`).
-2. Deploy frontend to Vercel and backend to Render.
-3. Script and generate Episode 1 of the 10-part documentation series ("Ep 1: The Zero-to-One Architecture of RevisionReel").
-4. Run Supabase SQL migration for `profiles`, `completed_cards`, and `saved_cards` tables.
+1. Deploy frontend to Vercel and backend to Render.
+2. Script and generate Episode 1 of the 10-part documentation series ("Ep 1: The Zero-to-One Architecture of RevisionReel").
+3. Run Supabase SQL migration (`supabase/schema.sql`) for `profiles`, `completed_cards`, and `saved_cards` tables.
+4. Expand card deck to 30 concepts across Class 11-12 Board & JEE Foundation syllabus.
