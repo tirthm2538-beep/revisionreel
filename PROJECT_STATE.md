@@ -99,10 +99,29 @@ auth/streaks/progress, deployed on Vercel + Render.
    - Detailed production breakdown & storyboard created in `series/episode-01/EPISODE_1_PLAN.md`.
 
 ## Status
-Initial project scaffolding complete. Frontend and backend builds verified locally. Episode 1 media assets and video reel generated. Code and assets pushed to GitHub (`main` branch).
+- Initial project scaffolding complete & verified locally.
+- 18 high-yield concept cards loaded across Physics, Chemistry, and Math.
+- Episode 1 media assets and video reel produced under `series/episode-01/`.
+- Code and assets pushed to GitHub (`https://github.com/tirthm2538-beep/revisionreel`).
+- In Progress: Full-stack deployment phase (Supabase project creation, Render backend deployment, Vercel frontend deployment).
 
-## Next steps
-1. Deploy frontend to Vercel and backend to Render.
-2. Script and produce Episode 2 ("Why Revision the Old Way is Broken & How Micro-Cards Fix It").
-3. Run Supabase SQL migration (`supabase/schema.sql`) for `profiles`, `completed_cards`, and `saved_cards` tables.
-4. Expand card deck from 18 to 30 concepts across Class 11-12 Board & JEE Foundation syllabus.
+## Deployment Guide & Next Steps
+1. **Supabase Database & Auth Setup**:
+   - Create new project `revisionreel` on Supabase.
+   - Run `frontend/supabase/schema.sql` in SQL Editor to create `profiles`, `completed_cards`, and `saved_cards` tables with RLS and user trigger.
+   - Copy Project URL and public `anon` API key into `frontend/.env.local`.
+2. **Backend Deployment (Render)**:
+   - Create Web Service from `tirthm2538-beep/revisionreel`.
+   - Set Root Directory to `backend`.
+   - Build Command: `pip install -r requirements.txt`.
+   - Start Command: `uvicorn main:app --host 0.0.0.0 --port $PORT`.
+   - Environment Variables: `PYTHON_VERSION = 3.12.5`.
+3. **Frontend Deployment (Vercel)**:
+   - Import `tirthm2538-beep/revisionreel` on Vercel.
+   - Set Root Directory to `frontend`.
+   - Configure Environment Variables:
+     - `NEXT_PUBLIC_SUPABASE_URL`
+     - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+     - `NEXT_PUBLIC_API_URL` (Live Render URL)
+4. **Series Episode 2**:
+   - Script and produce Episode 2: *"Why Revision the Old Way is Broken & How Micro-Cards Fix It"*.
