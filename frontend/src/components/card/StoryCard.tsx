@@ -1,0 +1,262 @@
+import React, { useState } from 'react';
+import { StoryCardData } from '../../types/card';
+import { HookSection } from './HookSection';
+import { ExplanationSection } from './ExplanationSection';
+import { AnalogySection } from './AnalogySection';
+import { QuizSection } from './QuizSection';
+import { ShareModal } from './ShareModal';
+import { Badge } from '../ui/Badge';
+import { Share2, Bookmark, Flame, CheckCircle2 } from 'lucide-react';
+
+interface StoryCardProps {
+  card: StoryCardData;
+  isLastCard?: boolean;
+  isCompleted?: boolean;
+  isSaved?: boolean;
+  currentStreak?: number;
+  onNextCard?: () => void;
+  onQuizComplete?: (cardId: string) => void;
+  onToggleBookmark?: (cardId: string) => void;
+  isDesktopLayout?: boolean;
+}
+
+export function StoryCard({
+  card,
+  isLastCard = false,
+  isCompleted = false,
+  isSaved = false,
+  currentStreak = 1,
+  onNextCard,
+  onQuizComplete,
+  onToggleBookmark,
+  isDesktopLayout = false,
+}: StoryCardProps) {
+  const [isShareOpen, setIsShareOpen] = useState(false);
+
+  const getSubjectBadgeVariant = () => {
+    switch (card.subject) {
+      case 'physics':
+        return 'blue';
+      case 'chemistry':
+        return 'emerald';
+      case 'mathematics':
+      default:
+        return 'purple';
+    }
+  };
+
+  const getGlowStyles = () => {
+    switch (card.subject) {
+      case 'physics':
+        return {
+          top: 'bg-sky-500/10',
+          bottom: 'bg-blue-600/10',
+        };
+      case 'chemistry':
+        return {
+          top: 'bg-emerald-500/10',
+          bottom: 'bg-teal-600/10',
+        };
+      case 'mathematics':
+      default:
+        return {
+          top: 'bg-indigo-500/10',
+          bottom: 'bg-purple-600/10',
+        };
+    }
+  };
+
+  const glows = getGlowStyles();
+
+  return (
+    <div
+      className={`relative w-full max-w-full min-w-0 ${
+        isDesktopLayout
+          ? 'h-auto min-h-0 px-4 py-1.5 lg:px-6 lg:py-2'
+          : 'min-h-full h-auto flex flex-col justify-between px-3 py-1.5 sm:px-4 sm:py-2.5 overflow-x-hidden'
+      }`}
+    >
+      {/* Background ambient lighting strictly contained */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div
+          className={`absolute top-1/4 -right-12 rounded-full transition-all duration-500 ${
+            isDesktopLayout ? 'w-96 h-96 blur-[120px]' : 'w-48 h-48 blur-[80px]'
+          } ${glows.top}`}
+        />
+        <div
+          className={`absolute bottom-6 -left-12 rounded-full ${
+            isDesktopLayout ? 'w-96 h-96 blur-[120px]' : 'w-48 h-48 blur-[80px]'
+          } ${glows.bottom}`}
+        />
+      </div>
+
+      {/* Card Content Area */}
+      <div
+        className={`relative z-10 flex flex-col mx-auto w-full min-w-0 max-w-full ${
+          isDesktopLayout ? 'max-w-4xl gap-2 lg:gap-2.5' : 'max-w-md gap-1.5 sm:gap-2 flex-1 justify-between'
+        }`}
+      >
+        {/* Meta badges & Header */}
+        <div className="flex items-center justify-between gap-1.5 w-full min-w-0 pb-0.5">
+          <div className="flex items-center gap-1.5 min-w-0">
+            <Badge variant={getSubjectBadgeVariant()}>{card.tag}</Badge>
+            <span
+              className={`font-bold bg-slate-200 text-slate-800 dark:bg-slate-800 dark:text-slate-300 px-2 py-0.5 rounded ${
+                isDesktopLayout ? 'text-xs' : 'text-[10px]'
+              }`}
+            >
+              #{card.conceptNumber}
+            </span>
+            {isCompleted && (
+              <span
+                className={`flex items-center gap-1 font-bold text-emerald-800 bg-emerald-500/15 px-2 py-0.5 rounded-full border border-emerald-500/30 dark:text-emerald-300 ${
+                  isDesktopLayout ? 'text-xs' : 'text-[9px]'
+                }`}
+              >
+                <CheckCircle2
+                  className={
+                    isDesktopLayout
+                      ? 'w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400'
+                      : 'w-3 h-3 text-emerald-600 dark:text-emerald-400'
+                  }
+                />
+                <span>Mastered</span>
+              </span>
+            )}
+          </div>
+
+          <div
+            className={`flex items-center gap-1 font-bold text-amber-800 bg-amber-500/10 rounded-full border border-amber-500/25 flex-shrink-0 shadow-xs dark:text-amber-300 ${
+              isDesktopLayout ? 'text-xs px-2.5 py-1' : 'text-[10px] px-2 py-0.5'
+            }`}
+          >
+            <Flame
+              className={`fill-amber-500 text-amber-500 ${
+                isDesktopLayout ? 'w-3.5 h-3.5' : 'w-3 h-3'
+              }`}
+            />
+            <span>{currentStreak} Day Streak</span>
+          </div>
+        </div>
+
+        {/* Concept Title */}
+        <div className="w-full min-w-0">
+          <h1
+            className={`font-black tracking-tight text-slate-900 dark:text-white leading-tight break-words hyphens-auto ${
+              isDesktopLayout ? 'text-lg lg:text-xl' : 'text-base sm:text-lg'
+            }`}
+          >
+            {card.conceptTitle}
+          </h1>
+          <p
+            className={`text-slate-600 dark:text-slate-400 font-medium mt-0.5 ${
+              isDesktopLayout ? 'text-xs' : 'text-[10px] sm:text-xs'
+            }`}
+          >
+            {card.trackTitle} &bull; {card.readTime}
+          </p>
+        </div>
+
+        {/* 4 Modular Sections (2x2 grid if isDesktopLayout, single column if mobile) */}
+        <div
+          className={`w-full min-w-0 max-w-full ${
+            isDesktopLayout
+              ? 'grid grid-cols-2 gap-2.5 lg:gap-3 items-stretch'
+              : 'flex flex-col gap-1.5 sm:gap-2'
+          }`}
+        >
+          {/* Section 1: The Hook */}
+          <div className="w-full min-w-0 flex flex-col h-full">
+            <HookSection
+              hook={card.hook}
+              className={isDesktopLayout ? 'h-full max-h-[140px] overflow-y-auto scrollbar-thin' : ''}
+            />
+          </div>
+
+          {/* Section 2: In Plain English */}
+          <div className="w-full min-w-0 flex flex-col h-full">
+            <ExplanationSection
+              explanation={card.explanation}
+              className={isDesktopLayout ? 'h-full max-h-[140px] overflow-y-auto scrollbar-thin' : ''}
+            />
+          </div>
+
+          {/* Section 3: The Analogy */}
+          <div className="w-full min-w-0 flex flex-col h-full">
+            <AnalogySection
+              analogy={card.analogy}
+              iconName={card.analogyIcon}
+              className={isDesktopLayout ? 'h-full max-h-[250px] overflow-y-auto scrollbar-thin' : ''}
+            />
+          </div>
+
+          {/* Section 4: The Quick Quiz */}
+          <div className="w-full min-w-0 flex flex-col h-full">
+            <QuizSection
+              quiz={card.quiz}
+              onAnswerCorrect={() => onQuizComplete?.(card.id)}
+              onNextCard={onNextCard}
+              isLastCard={isLastCard}
+              className={isDesktopLayout ? 'h-full max-h-[250px] overflow-y-auto scrollbar-thin' : ''}
+            />
+          </div>
+        </div>
+
+        {/* Footer actions */}
+        <div
+          className={`flex items-center justify-between text-slate-600 dark:text-slate-400 w-full min-w-0 border-t border-slate-200 dark:border-slate-800 ${
+            isDesktopLayout ? 'mt-1 pt-1.5 pb-0.5 text-xs' : 'mt-1 pt-1.5 pb-0.5 text-xs flex-shrink-0'
+          }`}
+        >
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <button
+              onClick={() => setIsShareOpen(true)}
+              className="flex items-center gap-1.5 transition-colors cursor-pointer bg-slate-100 hover:bg-slate-200 border border-slate-200 px-2.5 py-1 rounded-lg text-slate-800 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:text-white"
+            >
+              <Share2 className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
+              <span className="font-semibold text-xs">Share</span>
+            </button>
+            <button
+              onClick={() => onToggleBookmark?.(card.id)}
+              className="flex items-center gap-1.5 transition-colors cursor-pointer bg-slate-100 hover:bg-slate-200 border border-slate-200 px-2.5 py-1 rounded-lg dark:bg-slate-900 dark:border-slate-800"
+            >
+              <Bookmark
+                className={`w-3.5 h-3.5 ${
+                  isSaved ? 'text-amber-500 fill-amber-500' : 'text-slate-600 dark:text-slate-400'
+                }`}
+              />
+              <span
+                className={`font-semibold text-xs ${
+                  isSaved ? 'text-amber-700 dark:text-amber-300' : 'text-slate-800 dark:text-slate-300'
+                }`}
+              >
+                {isSaved ? 'Saved' : 'Save'}
+              </span>
+            </button>
+          </div>
+
+          <div className="flex items-center gap-2">
+            {!isDesktopLayout ? (
+              <span className="text-[10px] text-slate-500 dark:text-slate-400 italic hidden sm:inline">
+                Swipe up for next concept ⇅
+              </span>
+            ) : (
+              onNextCard &&
+              !isLastCard && (
+                <button
+                  onClick={onNextCard}
+                  className="flex items-center gap-1 text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 transition-colors cursor-pointer"
+                >
+                  <span>Next Concept &rarr;</span>
+                </button>
+              )
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Share Modal Dialog */}
+      <ShareModal card={card} isOpen={isShareOpen} onClose={() => setIsShareOpen(false)} />
+    </div>
+  );
+}
