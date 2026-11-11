@@ -37,60 +37,49 @@ auth/streaks/progress, deployed on Vercel + Render.
   2. Plain-English explanation without academic jargon
   3. One grounded, concrete everyday analogy
   4. Quick 3-option quiz (A, B, C) with constructive explanations and punchy takeaway
+- Visual Design & Theming (locked & verified):
+  - **Physics**: Sky Blue (`#0284c7`, `sky-500`, `blue-600`) — sky badge, sky concept pill, sky explanation & analogy cards, sky active indicator in sidebar, sky progress dots.
+  - **Chemistry**: Emerald Teal (`#059669`, `emerald-500`, `teal-600`) — emerald badge, emerald concept pill, teal explanation, emerald analogy, emerald active indicator, emerald progress dots.
+  - **Mathematics**: Indigo Violet (`#6366f1`, `indigo-500`, `purple-600`) — indigo badge, indigo concept pill, purple explanation, indigo analogy, indigo active indicator, indigo progress dots.
+  - FinFluence's green styling was scrubbed from general card components so non-chemistry cards never show leftover green.
 - Documentation: 10-episode short video series, faceless AI avatar "Tirth" 
   narrating the build process, no real face/voice used
 - GitHub Repository: https://github.com/tirthm2538-beep/revisionreel
 
-## What was built (Initial Release)
+## What was built
 1. **Repository & Workspace Setup**:
    - Initialized Git repository with clean `.gitignore` (ignoring node_modules, .next, venv, pycache, .env.local).
    - Created public GitHub repo `tirthm2538-beep/revisionreel` via GitHub API and configured origin remote.
 
 2. **18 Starting High-Yield Concept Cards**:
-   - **Physics (6 cards)**:
-     - Newton's 3rd Law & Action-Reaction Pairs (Mechanics)
-     - Centripetal vs Centrifugal Force (Circular Motion)
-     - Work Done by Friction: Positive or Negative? (Work & Energy)
-     - Lenz's Law & Conservation of Energy (Electromagnetism)
-     - Simple Harmonic Motion: Max Speed vs Max Pull (Oscillations)
-     - The Doppler Effect & Cosmological Redshift (Waves & Modern Physics)
-   - **Chemistry (6 cards)**:
-     - Electronegativity vs Electron Affinity (Periodic Trends)
-     - Le Chatelier's Principle & Inert Gas Addition (Chemical Equilibrium)
-     - SN1 vs SN2 Nucleophilic Substitution (Organic Chemistry)
-     - Catalysts & Activation Energy: What They Don't Change (Chemical Kinetics)
-     - Raoult's Law & Colligative Properties (Solutions)
-     - Buffer Solutions & The Common Ion Effect (Ionic Equilibrium)
-   - **Mathematics (6 cards)**:
-     - Derivatives: The Illusion of 0/0 (Calculus)
-     - Definite Integrals: Net Signed Area (Calculus)
-     - Dot Product vs Cross Product (Vectors & 3D)
-     - Bayes' Theorem & The Base Rate Fallacy (Probability)
-     - Continuity vs Differentiability: The Sharp Corner (Calculus)
-     - Permutations vs Combinations: Does Order Matter? (Combinatorics)
+   - **Physics (6 cards)**: Newton's 3rd Law, Centripetal vs Centrifugal Force, Work Done by Friction, Lenz's Law, SHM Velocity vs Acceleration, Doppler Effect & Redshift.
+   - **Chemistry (6 cards)**: Electronegativity vs Electron Affinity, Le Chatelier & Inert Gas, SN1 vs SN2, Catalysts & Activation Energy, Raoult's Law & Colligatives, Buffers & Common Ion Effect.
+   - **Mathematics (6 cards)**: Derivatives (0/0 limit), Definite Integrals (Net Area), Dot vs Cross Product, Bayes' Theorem, Continuity vs Differentiability, Permutations vs Combinations.
 
 3. **Next.js Frontend (`/frontend`)**:
    - Component architecture: `HookSection`, `ExplanationSection`, `AnalogySection`, `QuizSection`, `StoryCard`, `ShareModal`.
-   - Navigation: `FeedHeader` (subject filters, streak, XP, auth), `FeedNavigation` (floating up/down arrows), `StoryProgressBar`.
-   - Layouts: Mobile snap story feed (`StoryFeed`) + side-by-side desktop study dashboard (`DesktopStoryDashboard`) with instant switcher.
-   - Design: Tailwind CSS v4 styling with dynamic subject accents (Sky Blue for Physics, Emerald Teal for Chemistry, Indigo Violet for Math).
-   - Authentication & Progress: `AuthScreen` with Supabase sign-in/up and instant Guest Mode (localStorage fallback + +10 XP quiz reward + streak calculation).
+   - Navigation: `FeedHeader` (subject filters, streak, XP, auth), `FeedNavigation` (floating controls), `StoryProgressBar` (subject-themed indicator).
+   - Layouts: Mobile snap story feed (`StoryFeed`) + side-by-side desktop study dashboard (`DesktopStoryDashboard`) with instant view switcher.
+   - Authentication & Progress: `AuthScreen` with Supabase sign-in/up and instant Guest Mode (localStorage fallback + +10 XP quiz reward + streak tracking).
    - Theme: Dark / Light toggle supported via `ThemeContext`.
-   - Verified: Clean Next.js 16 production build (`npx next build` passing with zero errors/warnings).
+   - Real Supabase credentials connected in `.env.local` (`NEXT_PUBLIC_SUPABASE_URL=https://chlnjwnbvfitnvclqpgs.supabase.co`).
+   - Production Build: Verified clean compilation with Turbopack (`next build` passing in ~2.0s with 0 errors/warnings).
 
 4. **FastAPI Backend (`/backend`)**:
    - `main.py` serving REST endpoints:
-     - `GET /health` (service status, card count)
+     - `GET /health` (service status, card count, zero-downtime health check)
      - `GET /cards` (supports `?subject=` and `?track=` filtering)
      - `GET /cards/{card_id}` (individual card lookup)
      - `GET /subjects` and `GET /tracks` (subject metadata)
      - `POST /cards/generate` (AI card generation endpoint)
-   - Pydantic v2 schemas in `models/card.py`.
-   - Seed data in `data/cards.py`.
-   - Deployment configs: `Procfile`, `render.yaml`, `requirements.txt`.
-   - Dedicated Python 3.12 virtual environment tested and verified.
+   - CORS middleware pre-configured for `https://*.vercel.app` and `http://localhost:3000`.
+   - Deployment ready: `Procfile`, `render.yaml`, `requirements.txt`.
 
-5. **Documentation Video Series — Episode 1**:
+5. **Visual Verification & Proof**:
+   - Full headless browser screenshots generated for Physics, Chemistry, and Mathematics in both Desktop (1280x820) and Mobile (420x860) views.
+   - Visual parity and strict subject-based color separation verified.
+
+6. **Documentation Video Series — Episode 1**:
    - Episode 1 title: *"I'm Building an AI App for Students — Here's the Plan"*
    - Locked script (~96 seconds, casual energetic collegiate tone).
    - Generated faceless AI avatar character portrait for narrator "Tirth" (`series/episode-01/avatar_tirth.png`).
@@ -100,28 +89,31 @@ auth/streaks/progress, deployed on Vercel + Render.
 
 ## Status
 - Initial project scaffolding complete & verified locally.
-- 18 high-yield concept cards loaded across Physics, Chemistry, and Math.
-- Episode 1 media assets and video reel produced under `series/episode-01/`.
-- Code and assets pushed to GitHub (`https://github.com/tirthm2538-beep/revisionreel`).
-- In Progress: Full-stack deployment phase (Supabase project creation, Render backend deployment, Vercel frontend deployment).
+- Real Supabase credentials active in `frontend/.env.local`.
+- Production build confirmed clean (`next build`).
+- Subject color theming refined, verified, and screenshotted.
+- Latest code pushed to GitHub (`https://github.com/tirthm2538-beep/revisionreel`).
+- In Progress: Backend deployment to Render (waiting for live backend URL).
+- Next Step: Frontend deployment to Vercel with live backend URL and Supabase credentials.
 
 ## Deployment Guide & Next Steps
 1. **Supabase Database & Auth Setup**:
-   - Create new project `revisionreel` on Supabase.
-   - Run `frontend/supabase/schema.sql` in SQL Editor to create `profiles`, `completed_cards`, and `saved_cards` tables with RLS and user trigger.
-   - Copy Project URL and public `anon` API key into `frontend/.env.local`.
+   - Project: `https://chlnjwnbvfitnvclqpgs.supabase.co`
+   - Public Anon Key: Configured in `frontend/.env.local`.
+   - SQL schema from `frontend/supabase/schema.sql` applied to Supabase SQL editor.
 2. **Backend Deployment (Render)**:
    - Create Web Service from `tirthm2538-beep/revisionreel`.
    - Set Root Directory to `backend`.
    - Build Command: `pip install -r requirements.txt`.
    - Start Command: `uvicorn main:app --host 0.0.0.0 --port $PORT`.
+   - Plan: Free.
    - Environment Variables: `PYTHON_VERSION = 3.12.5`.
 3. **Frontend Deployment (Vercel)**:
    - Import `tirthm2538-beep/revisionreel` on Vercel.
    - Set Root Directory to `frontend`.
    - Configure Environment Variables:
-     - `NEXT_PUBLIC_SUPABASE_URL`
-     - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-     - `NEXT_PUBLIC_API_URL` (Live Render URL)
+     - `NEXT_PUBLIC_SUPABASE_URL = https://chlnjwnbvfitnvclqpgs.supabase.co`
+     - `NEXT_PUBLIC_SUPABASE_ANON_KEY = sb_publishable_VzFaoesWOTjyC16l4frMpw_MgR0_4G_`
+     - `NEXT_PUBLIC_API_URL = <Live Render URL>`
 4. **Series Episode 2**:
    - Script and produce Episode 2: *"Why Revision the Old Way is Broken & How Micro-Cards Fix It"*.
